@@ -52,6 +52,6 @@ pip install pymdown-fancylists
 
 ## Usage
 ```python
-md = markdown.Markdown(extensions=['pymdown_fancylists'])
+md = markdown.Markdown(extensions=['fancylists'])
 ```
 

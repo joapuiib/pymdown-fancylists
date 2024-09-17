@@ -48,7 +48,7 @@ class FancylistsProcessor(OListProcessor):
     def run(self, parent, blocks):
         super().run(parent, blocks)
 
-        lst = parent.find('.//ol')
+        lst = parent.findall('ol')[-1]
 
         if self.TYPE != "1":
            lst.set('type', self.TYPE)

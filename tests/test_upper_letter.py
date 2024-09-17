@@ -1,7 +1,7 @@
 import markdown
 
 class TestUpperCaseLetterList:
-    md = markdown.Markdown(extensions=['fancylists', 'sane_lists'])
+    md = markdown.Markdown(extensions=['fancylists'])
 
     def test_start_default(self):
         text = 'A. List item\nB. List item'
@@ -27,7 +27,7 @@ class TestUpperCaseLetterList:
 
         result = self.md.convert(text)
 
-        assert result == expected'
+        assert result == expected
 
 
     def test_start_AA(self):

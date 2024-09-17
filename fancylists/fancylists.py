@@ -5,20 +5,29 @@ from lxml import etree
 import re
 
 
-def letter_index_to_number(index, reference):
+def letter_to_number(index):
     count = 0
     for letter in index:
         count *= 26
-        count += ord(letter) - ord(reference) + 1
+        count += ord(letter) - ord('a') + 1
     return count
 
 
-def lower_letter_to_number(letter):
-    return letter_index_to_number(letter, 'a')
+def roman_to_number(roman):
+    roman_map = {'i': 1, 'v': 5, 'x': 10, 'l': 50, 'c': 100, 'd': 500, 'm': 1000}
+    result = 0
+    prev = 0
+    for letter in reversed(roman):
+        if letter not in roman_map:
+            return None
 
-
-def upper_letter_to_number(letter):
-    return letter_index_to_number(letter, 'A')
+        value = roman_map[letter]
+        if value < prev:
+            result -= value
+        else:
+            result += value
+        prev = value
+    return result
 
 
 class FancylistsProcessor(OListProcessor):
@@ -62,15 +71,27 @@ class FancylistsProcessor(OListProcessor):
                     index_match = INDEX_RE.match(m.group(1))
 
                     if index_match:
+                        index_text = index_match.group()
                         if index_match.group('number'):
                             self.TYPE = "1"
-                            self.STARTSWITH = index_match.group()
+                            self.STARTSWITH = index_text
                         elif index_match.group('lower_letter'):
-                            self.TYPE = "a"
-                            self.STARTSWITH = str(lower_letter_to_number(index_match.group()))
+                            roman_value = roman_to_number(index_text)
+                            if roman_value:
+                                self.TYPE = "i"
+                                self.STARTSWITH = str(roman_value)
+                            else:
+                                self.TYPE = "a"
+                                self.STARTSWITH = str(letter_to_number(index_text))
                         elif index_match.group('upper_letter'):
-                            self.TYPE = "A"
-                            self.STARTSWITH = str(upper_letter_to_number(index_match.group()))
+                            index_text = index_text.lower()
+                            roman_value = roman_to_number(index_text)
+                            if roman_value:
+                                self.TYPE = "I"
+                                self.STARTSWITH = str(roman_value)
+                            else:
+                                self.TYPE = "A"
+                                self.STARTSWITH = str(letter_to_number(index_text))
 
                 # Append to the list
                 items.append(m.group(3))

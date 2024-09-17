@@ -1,7 +1,7 @@
 import markdown
 
 class TestLowerCaseLetterList:
-    md = markdown.Markdown(extensions=['fancylists', 'sane_lists'])
+    md = markdown.Markdown(extensions=['fancylists'])
 
     def test_start_default(self):
         text = 'a. List item\nb. List item'

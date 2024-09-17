@@ -1,7 +1,7 @@
 import markdown
 
 class TestNumberedList:
-    md = markdown.Markdown(extensions=['fancylists', 'sane_lists'])
+    md = markdown.Markdown(extensions=['fancylists'])
 
     def test_start_default(self):
         text = "1. List item\n2. List item"

@@ -2,7 +2,6 @@ from markdown import Extension
 from markdown.blockprocessors import OListProcessor
 import re
 
-
 def letter_to_number(index):
     count = 0
     for letter in index:
@@ -40,7 +39,7 @@ class FancylistsProcessor(OListProcessor):
         self.INDENT_RE = re.compile(r'^[ ]{%d,%d}(([0-9a-zA-Z]+\.)|[*+-])[ ]+.*' %
                                     (self.tab_length, self.tab_length * 2 - 1))
 
-        self.TYPE = "1"
+        self.TYPE = []
 
         self.LAZY_OL = False
 
@@ -50,8 +49,9 @@ class FancylistsProcessor(OListProcessor):
 
         lst = parent.findall('ol')[-1]
 
-        if self.TYPE != "1":
-           lst.set('type', self.TYPE)
+        current_type = self.TYPE.pop()
+        if current_type != "1":
+           lst.set('type', current_type)
 
 
     def get_items(self, block):
@@ -71,24 +71,24 @@ class FancylistsProcessor(OListProcessor):
                     if index_match:
                         index_text = index_match.group()
                         if index_match.group('number'):
-                            self.TYPE = "1"
+                            self.TYPE.append("1")
                             self.STARTSWITH = index_text
                         elif index_match.group('lower_letter'):
                             roman_value = roman_to_number(index_text)
                             if roman_value:
-                                self.TYPE = "i"
+                                self.TYPE.append("i")
                                 self.STARTSWITH = str(roman_value)
                             else:
-                                self.TYPE = "a"
+                                self.TYPE.append("a")
                                 self.STARTSWITH = str(letter_to_number(index_text))
                         elif index_match.group('upper_letter'):
                             index_text = index_text.lower()
                             roman_value = roman_to_number(index_text)
                             if roman_value:
-                                self.TYPE = "I"
+                                self.TYPE.append("I")
                                 self.STARTSWITH = str(roman_value)
                             else:
-                                self.TYPE = "A"
+                                self.TYPE.append("A")
                                 self.STARTSWITH = str(letter_to_number(index_text))
 
                 # Append to the list

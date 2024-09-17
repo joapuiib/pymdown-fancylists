@@ -1,7 +1,5 @@
 from markdown import Extension
 from markdown.blockprocessors import OListProcessor
-from markdown.blockparser import BlockParser
-from lxml import etree
 import re
 
 
@@ -31,7 +29,7 @@ def roman_to_number(roman):
 
 
 class FancylistsProcessor(OListProcessor):
-    def __init__(self, parser: BlockParser):
+    def __init__(self, parser):
         super().__init__(parser)
 
         self.RE = re.compile(r'^[ ]{0,%d}([0-9a-zA-Z]+)\.[ ]+(.*)' % (self.tab_length - 1))
@@ -47,7 +45,7 @@ class FancylistsProcessor(OListProcessor):
         self.LAZY_OL = False
 
 
-    def run(self, parent: etree.Element, blocks: list[str]) -> None:
+    def run(self, parent, blocks):
         super().run(parent, blocks)
 
         lst = parent.find('.//ol')
@@ -56,7 +54,7 @@ class FancylistsProcessor(OListProcessor):
            lst.set('type', self.TYPE)
 
 
-    def get_items(self, block: str) -> list[str]:
+    def get_items(self, block):
         """ Break a block into list items. """
         items = []
         for line in block.split('\n'):

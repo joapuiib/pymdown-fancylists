@@ -50,8 +50,7 @@ class FancylistsProcessor(OListProcessor):
         lst = parent.findall('ol')[-1]
 
         current_type = self.TYPE.pop()
-        if current_type != "1":
-           lst.set('type', current_type)
+        lst.set('type', current_type)
 
 
     def get_items(self, block):

@@ -13,7 +13,7 @@ class TestMixedList:
         )
 
         expected = (
-            '<ol>\n'
+            '<ol type="1">\n'
             '<li>List item</li>\n'
             '<li>List item'
             '<ol type="a">\n'
@@ -41,7 +41,7 @@ class TestMixedList:
         )
 
         expected = (
-            '<ol start="2">\n'
+            '<ol start="2" type="1">\n'
             '<li>List item</li>\n'
             '<li>List item'
             '<ol type="a">\n'

@@ -1,4 +1,6 @@
 # pymdown-fancylists
+:warning: __This extension is deprecated in favor of [pymdown-extensions fancylists](https://facelessuser.github.io/pymdown-extensions/extensions/fancylists/)__
+
 Python Markdown Extension that allows more types of lists.
 
 Inspired by [Pandoc fancy_lists extension](https://pandoc.org/MANUAL.html#extension-fancy_lists)
